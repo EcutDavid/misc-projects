@@ -8,35 +8,11 @@ import (
 	"image/color"
 	"image/draw"
 	"image/png"
-	"io/ioutil"
 	"log"
 	"os"
 	"strconv"
 	"strings"
-
-	qrcode "github.com/skip2/go-qrcode"
 )
-
-func encode(url string, newStyle bool) string {
-	var png []byte
-	var err error
-	if newStyle {
-		err = qrcode.WriteColorFile(url, qrcode.Medium, 256, color.White, color.RGBA{0, 199, 206, 255}, "qr.png")
-		if err != nil {
-			log.Fatal(err)
-		}
-		png, err = ioutil.ReadFile("qr.png")
-	} else {
-		png, err = qrcode.Encode(url, qrcode.Medium, 256)
-	}
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	sEnc := base64.StdEncoding.EncodeToString([]byte(png))
-	return fmt.Sprintf("data:image/png;base64,%s", string(sEnc))
-}
 
 var numImage []image.Image
 var recSize image.Point
@@ -98,6 +74,7 @@ func drawImg(num int) {
 	fmt.Printf("data:image/png;base64,%s", sEnc)
 }
 
+// Multiplication only for now.
 func parseNum(str string) int {
 	str = strings.Trim(str, " ")
 	if len(str) == 0 {
