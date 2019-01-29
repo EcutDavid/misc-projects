@@ -15,6 +15,7 @@ func encode(url string, newStyle bool) string {
 	var png []byte
 	var err error
 	if newStyle {
+		// github.com/skip2/go-qrcode has to write the QR code to a file if non-default colors are needed.
 		err = qrcode.WriteColorFile(url, qrcode.Medium, 256, color.White, color.RGBA{0, 199, 206, 255}, "qr.png")
 		if err != nil {
 			log.Fatal(err)
@@ -34,7 +35,7 @@ func encode(url string, newStyle bool) string {
 
 func main() {
 	if len(os.Args) < 2 {
-		log.Fatal("Need tell me what to encode")
+		log.Fatal("Please tell me what to encode")
 	}
 	b64 := encode(os.Args[1], len(os.Args) > 2)
 	fmt.Print(b64)
