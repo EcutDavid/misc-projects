@@ -11,13 +11,14 @@ import (
 	qrcode "github.com/skip2/go-qrcode"
 )
 
+var lightBlue = color.RGBA{0, 199, 206, 255}
+
 func encode(url string, newStyle bool) string {
 	var png []byte
 	var err error
 	if newStyle {
 		// github.com/skip2/go-qrcode has to write the QR code to a file if non-default colors are needed.
-		err = qrcode.WriteColorFile(url, qrcode.Medium, 256, color.White, color.RGBA{0, 199, 206, 255}, "qr.png")
-		if err != nil {
+		if err = qrcode.WriteColorFile(url, qrcode.Medium, 256, color.White, lightBlue, "qr.png"); err != nil {
 			log.Fatal(err)
 		}
 		png, err = ioutil.ReadFile("qr.png")
